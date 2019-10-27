@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/SeccionPropiedades"
+            android:icon="@drawable/casados"
+            android:title="Propiedades"
+            />
+        <item
+            android:id="@+id/SeccionCitas"
+            android:icon="@drawable/calendario"
+            android:title="Citas" />
+        <item
+            android:id="@+id/SeccionUsuarios"
+            android:icon="@drawable/usuarios"
+            android:title="Usuarios" />
+        <item
+            android:id="@+id/SeccionEstadisticas"
+            android:icon="@drawable/estadisticas"
+            android:title="Estaditicas" />
+    </group>
+
+
+
+
+
+
+
+
+</menu>
