@@ -24,6 +24,9 @@ public class EditarPropiedad extends AppCompatActivity {
                 Intent v = new Intent(EditarPropiedad.this, DetallesDePropiedades.class);
                 startActivity(v);
                 Toast.makeText(getApplicationContext(),"Cambios Realizados",Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 

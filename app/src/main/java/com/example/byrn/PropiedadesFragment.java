@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class PropiedadesFragment extends Fragment {
+Button btnAgregarPropiedad;
+Button btnBusquedaPropiedad;
 
 
 
@@ -77,6 +80,8 @@ public class PropiedadesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
     }
 
 
@@ -86,10 +91,9 @@ public class PropiedadesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
-
-
         View vista = inflater.inflate(R.layout.fragment_propiedades, container, false);
+        btnAgregarPropiedad = vista.findViewById(R.id.btnAgregarPropiedad);
+        btnBusquedaPropiedad = vista.findViewById(R.id.btnBusquedaPropiedad);
 
 
         ArrayList<String> data = new ArrayList<>();
@@ -108,22 +112,40 @@ public class PropiedadesFragment extends Fragment {
         ListView lvData = (ListView) vista.findViewById(R.id.lvData);
         lvData.setAdapter(adapter);
 
-    ;
-
-
 
         lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent v = new Intent(getActivity(), DetallesDePropiedades.class);
 
-                if (position==0){
+                if (position == 0) {
 
                     getActivity().startActivity(v);
 
                 }
             }
         });
+
+
+        btnAgregarPropiedad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vi) {
+                Intent v = new Intent(getActivity(), AgregarPropiedad.class);
+                startActivity(v);
+
+            }
+        });
+
+            btnBusquedaPropiedad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vi) {
+                Intent v = new Intent(getActivity(), BusquedaPropiedad.class);
+                startActivity(v);
+
+            }
+        });
+
+
         return vista;
 
     }

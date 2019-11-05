@@ -31,6 +31,7 @@ import android.widget.Button;
 
 public class Main2Activity extends AppCompatActivity
 
+
 implements NavigationView.OnNavigationItemSelectedListener,
         PropiedadesFragment.OnFragmentInteractionListener,
         CitasFragment.OnFragmentInteractionListener,
@@ -40,11 +41,13 @@ implements NavigationView.OnNavigationItemSelectedListener,
 
 
     private AppBarConfiguration mAppBarConfiguration;
+    Button btnCerrarSesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Fragment fr = null;
+        btnCerrarSesion = (Button) findViewById(R.id.btnCerrarSesion);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
@@ -75,6 +78,10 @@ implements NavigationView.OnNavigationItemSelectedListener,
         getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fr).commit();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
     }
 
     @Override
@@ -82,6 +89,8 @@ implements NavigationView.OnNavigationItemSelectedListener,
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main2, menu);
         return true;
+
+
     }
 
     @Override
@@ -89,6 +98,7 @@ implements NavigationView.OnNavigationItemSelectedListener,
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+
     }
 
     @Override
@@ -126,6 +136,9 @@ implements NavigationView.OnNavigationItemSelectedListener,
 
 
         return true;
+
+
+
     }
 
     @Override
