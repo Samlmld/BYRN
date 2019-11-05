@@ -46,6 +46,8 @@ implements NavigationView.OnNavigationItemSelectedListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         Fragment fr = null;
         btnCerrarSesion = (Button) findViewById(R.id.btnCerrarSesion);
 
@@ -82,7 +84,10 @@ implements NavigationView.OnNavigationItemSelectedListener,
 
 
 
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

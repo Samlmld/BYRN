@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class DetallesDePropiedades extends AppCompatActivity {
-    Button btnEliminar, btnEditarPropiedad;
+    Button btnEliminar, btnEditarPropiedad,btnRegresar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class DetallesDePropiedades extends AppCompatActivity {
 
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
         btnEditarPropiedad = (Button) findViewById(R.id.btnEditarPropiedad);
-
+        btnRegresar =(Button) findViewById(R.id.btnRegresar);
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,6 +34,8 @@ public class DetallesDePropiedades extends AppCompatActivity {
 
                                 finish();
                                 Toast.makeText(getApplicationContext(),"Borrado Exitoso",Toast.LENGTH_SHORT).show();
+                                Intent inte = new Intent(DetallesDePropiedades.this, Main2Activity.class);
+                                startActivity(inte);
 
                             }
                         })
@@ -60,6 +62,14 @@ public class DetallesDePropiedades extends AppCompatActivity {
                 Intent v = new Intent(DetallesDePropiedades.this, EditarPropiedad.class);
                 startActivity(v);
 
+            }
+        });
+
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent v = new Intent(DetallesDePropiedades.this, Main2Activity.class);
+                startActivity(v);
             }
         });
     }

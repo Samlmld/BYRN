@@ -8,13 +8,13 @@
     <fragment
         android:id="@+id/SeccionPropiedades"
         android:name="com.example.byrn.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="BYRN"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/SeccionCitas"
         android:name="com.example.byrn.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label=""
         tools:layout="@layout/fragment_gallery" />
 
     <fragment

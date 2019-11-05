@@ -20,7 +20,6 @@ public class AgregarPropiedad extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_propiedad);
-
         btnGuardarNuevaPropiedad = (Button) findViewById(R.id.btnGuardarNuevaPropiedad);
         btnAbrirMapa = (Button) findViewById(R.id.btnAbrirMapa);
         etLatitud = (EditText) findViewById(R.id.etLatitud);
