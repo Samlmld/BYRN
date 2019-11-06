@@ -1,6 +1,7 @@
 package com.example.byrn;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,6 +10,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -20,6 +27,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class UsuariosFragment extends Fragment {
+    Button btnBuscarUsuario;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,6 +75,48 @@ public class UsuariosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista =  inflater.inflate(R.layout.fragment_usuarios, container, false);
+
+        btnBuscarUsuario = vista.findViewById(R.id.btnBuscarUsuario);
+
+        ArrayList<String> data = new ArrayList<>();
+
+        data.add("Juan Pistolas");
+        data.add("Aaron Gomez");
+        data.add("Luisa Arredondo");
+        data.add("Martha Gudiño");
+        data.add("Salvador Iglesias");
+        data.add("Beatriz Salgado");
+        data.add("Ana Villaseñor");
+        data.add("Juana Díaz");
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
+
+        ListView lvData = (ListView) vista.findViewById(R.id.lvData);
+        lvData.setAdapter(adapter);
+
+
+
+        lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent v = new Intent(getActivity(), DetallesUsuario.class);
+
+                if (position == 0) {
+
+                    getActivity().startActivity(v);
+
+                }
+            }
+        });
+
+        btnBuscarUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent v = new Intent(getActivity(), BuscarUsuario.class);
+                startActivity(v);
+            }
+        });
+
         return vista;
     }
 
