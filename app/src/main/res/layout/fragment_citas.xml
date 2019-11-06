@@ -23,7 +23,7 @@
             android:id="@+id/textView21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Citas"
+            android:text=" Citas pendientes"
             android:textColor="#00000F"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,19 +57,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.19" />
 
-        <Button
-            android:id="@+id/btnAgregarCita"
+        <EditText
+            android:id="@+id/etBusquedaCita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/Boton"
-            android:text="Agregar"
-            android:textColor="@color/colorAccent"
+            android:ems="10"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.173"
+            app:layout_constraintHorizontal_bias="0.151"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19" />
+            app:layout_constraintVertical_bias="0.193" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

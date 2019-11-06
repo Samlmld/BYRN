@@ -32,7 +32,7 @@ public class CitasFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    Button btnAgregarCita,btnBusquedaCita;
+    Button btnBusquedaCita;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -78,7 +78,6 @@ public class CitasFragment extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_citas, container, false);
 
         // Botones
-        btnAgregarCita = vista.findViewById(R.id.btnAgregarCita);
         btnBusquedaCita = vista.findViewById(R.id.btnBusquedaCita);
 
         String[] data = {"Cita 1","Cita 2","Cita 3","Cita 4"};
@@ -92,6 +91,7 @@ public class CitasFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent v = new Intent(getActivity(), DetallesCita.class);
+
                 startActivity(v);
             }
         });
