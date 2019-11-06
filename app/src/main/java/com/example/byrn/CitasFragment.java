@@ -1,6 +1,7 @@
 package com.example.byrn;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -90,7 +91,8 @@ public class CitasFragment extends Fragment {
         lvCitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent v = new Intent(getActivity(), DetallesCita.class);
+                startActivity(v);
             }
         });
 
