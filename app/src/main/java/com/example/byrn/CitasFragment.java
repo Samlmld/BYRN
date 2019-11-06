@@ -9,6 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,6 +30,8 @@ public class CitasFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    Button btnAgregarCita,btnBusquedaCita;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,6 +75,25 @@ public class CitasFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_citas, container, false);
+
+        // Botones
+        btnAgregarCita = vista.findViewById(R.id.btnAgregarCita);
+        btnBusquedaCita = vista.findViewById(R.id.btnBusquedaCita);
+
+        String[] data = {"Cita 1","Cita 2","Cita 3","Cita 4"};
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
+
+        ListView lvCitas = (ListView) vista.findViewById(R.id.lvCitas);
+        lvCitas.setAdapter(adapter);
+
+        lvCitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
         return vista;
     }
 
