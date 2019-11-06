@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
-
-
 public class SplashActivity extends AppCompatActivity {
     private final int DURACION_SPLASH = 2000;
 
