@@ -47,7 +47,7 @@
         app:layout_constraintVertical_bias="0.617" />
 
     <Button
-        android:id="@+id/btnEliminar"
+        android:id="@+id/btnRechazarcita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_red_dark"
@@ -61,7 +61,7 @@
         app:layout_constraintVertical_bias="0.939" />
 
     <Button
-        android:id="@+id/btnEditarPropiedad"
+        android:id="@+id/btnAceptarCita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#289976"
@@ -110,7 +110,7 @@
         app:layout_constraintVertical_bias="0.083" />
 
     <Button
-        android:id="@+id/btnRegresar"
+        android:id="@+id/btnRegresarCita"
         android:layout_width="33dp"
         android:layout_height="30dp"
         android:background="@drawable/r"
