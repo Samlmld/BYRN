@@ -88,6 +88,7 @@ public class UsuariosFragment extends Fragment {
         data.add("Beatriz Salgado");
         data.add("Ana Villaseñor");
         data.add("Juana Díaz");
+        data.add("Alan Castañeda");
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
 
