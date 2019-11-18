@@ -7,20 +7,23 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import mx.reel.Configuration;
+import mx.reel.pojos.AllEstatesResponse;
+import mx.reel.pojos.Estate;
+import mx.reel.utils.DialogManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -31,14 +34,13 @@ import java.util.ArrayList;
  * Use the {@link PropiedadesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PropiedadesFragment extends Fragment {
-Button btnAgregarPropiedad;
-Button btnBusquedaPropiedad;
+public class PropiedadesFragment extends Fragment implements Callback<AllEstatesResponse> {
+    private AllEstatesResponse allEstatesResponse = null;
+    private View fragment = null;
+    private ListView estatesListView = null;
 
-
-
-
-
+    Button btnAgregarPropiedad;
+    Button btnBusquedaPropiedad;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,53 +81,24 @@ Button btnBusquedaPropiedad;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
 
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
+        fragment = inflater.inflate(R.layout.fragment_propiedades, container, false);
 
+        estatesListView = fragment.findViewById(R.id.lvData);
+        btnAgregarPropiedad = fragment.findViewById(R.id.btnAgregarPropiedad);
+        btnBusquedaPropiedad = fragment.findViewById(R.id.btnBusquedaPropiedad);
 
-        View vista = inflater.inflate(R.layout.fragment_propiedades, container, false);
-        btnAgregarPropiedad = vista.findViewById(R.id.btnAgregarPropiedad);
-        btnBusquedaPropiedad = vista.findViewById(R.id.btnBusquedaPropiedad);
-
-
-        ArrayList<String> data = new ArrayList<>();
-
-        data.add("Propiedad 1");
-        data.add("Casa Bonita");
-        data.add("Terreno Grande");
-        data.add("Terreno Pequeño");
-        data.add("Rancho Campestre");
-        data.add("Departamento ");
-        data.add("Casa Duplex");
-        data.add("Propiedad 8");
-
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
-
-        ListView lvData = (ListView) vista.findViewById(R.id.lvData);
-        lvData.setAdapter(adapter);
-
-
-        lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent v = new Intent(getActivity(), DetallesDePropiedades.class);
-
-                if (position == 0) {
-
-                    getActivity().startActivity(v);
-
-                }
-            }
-        });
-
+        // API Communication
+        DialogManager.init(this.getActivity());
+        DialogManager.showLoadingDialog("Cargando propiedades...");
+        Call<AllEstatesResponse> estatesCall = Configuration.STATE_SERVICE.getAllStates();
+        estatesCall.enqueue(this);
 
         btnAgregarPropiedad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +109,7 @@ Button btnBusquedaPropiedad;
             }
         });
 
-            btnBusquedaPropiedad.setOnClickListener(new View.OnClickListener() {
+        btnBusquedaPropiedad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
                 Intent v = new Intent(getActivity(), BusquedaPropiedad.class);
@@ -145,15 +118,31 @@ Button btnBusquedaPropiedad;
             }
         });
 
-
-        return vista;
-
+        return fragment;
     }
 
+    private void initEstatesList() {
+        ArrayList<String> estatesNamesList = new ArrayList<>();
 
+        System.out.println(allEstatesResponse.getCurrentPage());
+        for (Estate estate : allEstatesResponse.getEstates()) {
+            estatesNamesList.add(estate.getName());
+        }
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, estatesNamesList);
 
+        estatesListView.setAdapter(adapter);
 
+        estatesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Estate estateToPass = allEstatesResponse.getEstates().get(position);
+                Intent intento = new Intent(getActivity(), DetallesDePropiedades.class);
+                intento.putExtra("estate", estateToPass);
+                startActivity(intento);
+            }
+        });
+    }
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -193,5 +182,27 @@ Button btnBusquedaPropiedad;
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    /** RETRO FIT HANDLERS **/
+    @Override
+    public void onResponse(Call<AllEstatesResponse> call, Response<AllEstatesResponse> response) {
+        if (response.isSuccessful()) {
+            DialogManager.hideLoadingDialog();
+            allEstatesResponse = response.body();
+            initEstatesList();
+        } else {
+            DialogManager.showMessageDialog("Ocurrió un error al consultar las propiedades, intente después.");
+        }
+    }
+
+    @Override
+    public void onFailure(Call<AllEstatesResponse> call, Throwable t) {
+        DialogManager.showMessageDialog("No se pudó obtener las propiedades, intente después.");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DialogManager.clear();
     }
 }

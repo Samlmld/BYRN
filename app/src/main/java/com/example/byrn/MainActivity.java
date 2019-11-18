@@ -7,14 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import mx.reel.TestConfiguration;
-import mx.reel.pojos.TestObjectResponse;
+import mx.reel.Configuration;
+import mx.reel.pojos.LoginRequest;
+import mx.reel.pojos.LoginResponse;
+import mx.reel.utils.DialogManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    // private Button iniciarButton = null;
     private EditText usernameText = null;
     private EditText passwordText = null;
 
@@ -22,19 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*
-        iniciarButton = findViewById(R.id.btnInicarSesion);
-        btninicar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent v = new Intent(MainActivity.this, Main2Activity.class);
-                startActivity(v);
-
-            }
-        });
-        */
         initViews();
     }
 
@@ -45,26 +33,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void onLoginButtonClick(View v) {
         System.out.println("Iniciando sesión...");
-        String username = usernameText.getText().toString();
+        String email = usernameText.getText().toString();
         String passsword = passwordText.getText().toString();
 
-        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-        startActivity(intent);
-
-        // Configuration.STATE_SERVICE.getAllStates();
-        Call<TestObjectResponse> testCall = TestConfiguration.TEST_SERVICE.testRequest();
-        testCall.enqueue(new Callback<TestObjectResponse>() {
+        DialogManager.init(this);
+        DialogManager.showLoadingDialog("Iniciando sesión...");
+        Call<LoginResponse> loginCall = Configuration
+                .USER_SERVICE.login(new LoginRequest(email, passsword));
+        loginCall.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<TestObjectResponse> call, Response<TestObjectResponse> response) {
-                System.out.println("Was call successful? " + response.isSuccessful());
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                // TODO: Save user & token
+                if (response.isSuccessful()) {
+                    DialogManager.hideLoadingDialog();
+                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                    startActivity(intent);
+                } else {
+                    DialogManager.showMessageDialog("No se pudo iniciar sesión, intente de nuevo.");
+                }
             }
 
             @Override
-            public void onFailure(Call<TestObjectResponse> call, Throwable t) {
-                System.out.println("======== ERROR ON RETROFIT CALL ========");
-                System.out.println(t.getLocalizedMessage());
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                System.out.println("==== LOGIN FAILED ====");
+                DialogManager.showMessageDialog("No se pudo iniciar sesión, intente de nuevo.");
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DialogManager.clear();
     }
 
 }
