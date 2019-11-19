@@ -1,9 +1,11 @@
 package mx.reel.pojos;
 
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Role {
+public class Role implements Serializable
+{
 
     @SerializedName("id")
     @Expose
@@ -26,6 +28,7 @@ public class Role {
     @SerializedName("pivot")
     @Expose
     private Pivot pivot;
+    private final static long serialVersionUID = 753160967908183876L;
 
     /**
      * No args constructor for use in serialization

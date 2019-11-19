@@ -1,10 +1,12 @@
 package mx.reel.pojos;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Serializable
+{
 
     @SerializedName("id")
     @Expose
@@ -48,6 +50,7 @@ public class User {
     @SerializedName("roles")
     @Expose
     private List<Role> roles = null;
+    private final static long serialVersionUID = -5938733633446705012L;
 
     /**
      * No args constructor for use in serialization

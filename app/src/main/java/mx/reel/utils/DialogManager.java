@@ -15,52 +15,35 @@ public class DialogManager {
     private static Dialog messageDialog = null;
 
     public static void init(Activity a) {
-
-        if (activity != null) {
-            messageDialog.dismiss();
-            loadingDialog.dismiss();
-        }
-
         activity = a;
 
+    }
+
+    public static void showLoadingDialog(String msg) {
+        hideMessageDialog();
         loadingDialog = new Dialog(activity);
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         loadingDialog.setCancelable(false);
         loadingDialog.setContentView(R.layout.dialog_loading);
 
-        messageDialog = new Dialog(activity);
-        messageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        messageDialog.setCancelable(false);
-        messageDialog.setContentView(R.layout.dialog_message);
-    }
-
-    public static void showLoadingDialog(String msg) {
-        messageDialog.hide();
-
         TextView text = loadingDialog.findViewById(R.id.text_dialog);
         text.setText(msg);
-
-        /*
-        Button dialogButton = dialog.findViewById(R.id.btn_dialog);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        */
 
         loadingDialog.show();
     }
 
     public static void hideLoadingDialog() {
         if (loadingDialog != null) {
-            loadingDialog.hide();
+            loadingDialog.dismiss();
         }
     }
 
     public static void showMessageDialog(String msg) {
-        loadingDialog.hide();
+        hideLoadingDialog();
+        messageDialog = new Dialog(activity);
+        messageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        messageDialog.setCancelable(false);
+        messageDialog.setContentView(R.layout.dialog_message);
 
         TextView text = messageDialog.findViewById(R.id.messageDialogLabel);
         text.setText(msg);
@@ -78,19 +61,11 @@ public class DialogManager {
 
     public static void hideMessageDialog() {
         if (messageDialog != null) {
-            messageDialog.hide();
+            messageDialog.dismiss();
         }
     }
 
     public static void clear() {
-        if (activity == null) {
-            return;
-        }
-
-        messageDialog.dismiss();
-        loadingDialog.dismiss();
-        messageDialog = null;
-        messageDialog = null;
-        activity = null;
+        System.out.println("TODO: REMOVE UNUSED FUNCTION");
     }
 }

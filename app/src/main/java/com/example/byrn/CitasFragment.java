@@ -13,9 +13,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import mx.reel.Configuration;
+import mx.reel.pojos.Appointment;
+import mx.reel.utils.DialogManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -26,8 +35,10 @@ import java.util.ArrayList;
  * Use the {@link CitasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CitasFragment extends Fragment {
+public class CitasFragment extends Fragment implements Callback<List<Appointment>> {
     // TODO: Rename parameter arguments, choose names that match
+    private ListView appointmentsListView = null;
+    private List<Appointment> appointments = null;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -76,34 +87,20 @@ public class CitasFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_citas, container, false);
+        appointmentsListView = vista.findViewById(R.id.lvCitas);
 
         // Botones
         btnBusquedaCita = vista.findViewById(R.id.btnBusquedaCita);
 
-        String[] data = {"Cita 1","Cita 2","Cita 3","Cita 4"};
+        DialogManager.init(this.getActivity());
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
-
-        ListView lvCitas = (ListView) vista.findViewById(R.id.lvCitas);
-        lvCitas.setAdapter(adapter);
-
-        lvCitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent v = new Intent(getActivity(), DetallesCita.class);
-
-                startActivity(v);
-            }
-        });
+        DialogManager.showLoadingDialog("Obteniendo citas...");
+        Call<List<Appointment>> serviceCall = Configuration.APPOINTMENT_SERVICE.getAllAppointments(
+                Configuration.getAuthToken()
+        );
+        serviceCall.enqueue(this);
 
         return vista;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -137,4 +134,50 @@ public class CitasFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private void initAppointmentsListView() {
+        List<String> appointmentsList = new ArrayList<>();
+
+        for (Appointment appointment : appointments) {
+            appointmentsList.add(
+                    appointment.getDate() + " a las " + appointment.getStartTime()
+            );
+        }
+
+        ListAdapter adapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                appointmentsList
+        );
+
+        appointmentsListView.setAdapter(adapter);
+
+        appointmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Appointment appointmentToPass = appointments.get(position);
+                Intent intent = new Intent(getActivity(), DetallesCita.class);
+                intent.putExtra("appointment", appointmentToPass);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
+        if (!response.isSuccessful()) {
+            DialogManager.showMessageDialog("No se pudieron consultar las citas.");
+            return;
+        }
+        DialogManager.hideLoadingDialog();
+        appointments = response.body();
+        initAppointmentsListView();
+    }
+
+    @Override
+    public void onFailure(Call<List<Appointment>> call, Throwable t) {
+        DialogManager.showMessageDialog("No se pudieron consultar las citas.");
+        System.out.println(t.getLocalizedMessage());
+    }
+
 }

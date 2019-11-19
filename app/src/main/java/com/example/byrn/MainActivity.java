@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
         loginCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                // TODO: Save user & token
+                // TODO: Save user to local state
                 if (response.isSuccessful()) {
+                    Configuration.setAuthtoken(response.body().getToken());
                     DialogManager.hideLoadingDialog();
                     Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivity(intent);
