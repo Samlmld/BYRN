@@ -8,14 +8,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AgregarPropiedad extends AppCompatActivity {
     Button btnGuardarNuevaPropiedad, btnAbrirMapa,btnCalcular,btnAgregarImagen;
     public EditText etLatitud, etLongitud;
-
+    Spinner spTipoDePropiedad;
+    Spinner spTipoPublicacion;
+    Spinner spDueño;
+    Spinner spCiudad;
+    final String [] TiposDePropiedades = {"Terreno rústico", "Terreno urbano","Casa Habitación", "Local Comercial","Bodega", "Departamento","Casa campestre", "Acción de sociedad"};
+    final String [] TipoPublicacion = {"Venta","Renta"};
+    final String [] TipoDueño={"1","2","3"};
+    final String [] municipios={"Guadalajara","Zapotlanejo","Tlajomulco","Zapopan","Tlaquepaque","Tequila","La Barca","Chapala"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +35,17 @@ public class AgregarPropiedad extends AppCompatActivity {
         etLongitud = (EditText) findViewById(R.id.etLongitud);
         btnCalcular = (Button) findViewById(R.id.btnCalcular);
         btnAgregarImagen = (Button) findViewById(R.id.btnAgregarImagen);
+        spTipoDePropiedad = (Spinner) findViewById(R.id.spTipoDePropiedad);
+        spTipoPublicacion = (Spinner) findViewById(R.id.spTipoPublicacion);
+        spDueño = (Spinner) findViewById(R.id.spDueño);
+        spCiudad = (Spinner) findViewById(R.id.spCiudad);
+
+
+        spTipoDePropiedad.setAdapter(new ArrayAdapter<String>(AgregarPropiedad.this,android.R.layout.simple_spinner_item,TiposDePropiedades));
+        spTipoPublicacion.setAdapter(new ArrayAdapter<String>(AgregarPropiedad.this,android.R.layout.simple_spinner_item,TipoPublicacion));
+        spDueño.setAdapter(new ArrayAdapter<String>(AgregarPropiedad.this,android.R.layout.simple_spinner_item,TipoDueño));
+        spCiudad.setAdapter(new ArrayAdapter<String>(AgregarPropiedad.this,android.R.layout.simple_spinner_item,municipios));
+
 
         btnGuardarNuevaPropiedad.setOnClickListener(new View.OnClickListener() {
             @Override
