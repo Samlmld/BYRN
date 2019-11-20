@@ -161,9 +161,10 @@
         app:layout_constraintVertical_bias="0.616" />
 
     <Spinner
-        android:id="@+id/spinner5"
+        android:id="@+id/spTipoPublicacion"
         android:layout_width="412dp"
         android:layout_height="49dp"
+        android:background="@drawable/style_bordes_editext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -172,9 +173,10 @@
         app:layout_constraintVertical_bias="0.846" />
 
     <Spinner
-        android:id="@+id/spinner6"
+        android:id="@+id/spDueño"
         android:layout_width="201dp"
         android:layout_height="55dp"
+        android:background="@drawable/style_bordes_editext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.976"
@@ -183,9 +185,10 @@
         app:layout_constraintVertical_bias="0.208" />
 
     <Spinner
-        android:id="@+id/spinner7"
+        android:id="@+id/spCiudad"
         android:layout_width="414dp"
         android:layout_height="53dp"
+        android:background="@drawable/style_bordes_editext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -194,9 +197,10 @@
         app:layout_constraintVertical_bias="0.299" />
 
     <Spinner
-        android:id="@+id/spinner8"
+        android:id="@+id/spTipoDePropiedad"
         android:layout_width="408dp"
         android:layout_height="47dp"
+        android:background="@drawable/style_bordes_editext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
