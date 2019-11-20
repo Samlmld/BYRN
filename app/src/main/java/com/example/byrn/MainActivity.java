@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import mx.reel.Configuration;
 import mx.reel.pojos.LoginRequest;
@@ -45,7 +46,13 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 // TODO: Save user to local state
                 if (response.isSuccessful()) {
+                    Configuration.setLoggedInUser(response.body().getUser());
                     Configuration.setAuthtoken(response.body().getToken());
+                    Toast.makeText(
+                            MainActivity.this,
+                            "¡Bienvenido " + Configuration.getLoggedInUser().getName() + "!",
+                            Toast.LENGTH_SHORT
+                    ).show();
                     DialogManager.hideLoadingDialog();
                     Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivity(intent);

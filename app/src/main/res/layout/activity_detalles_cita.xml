@@ -13,8 +13,7 @@
         android:text="TextView"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/clientDetailButton"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
@@ -241,5 +240,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+    <Button
+        android:id="@+id/clientDetailButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detalle"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/appointmentClient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appointmentClient" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,10 +3,12 @@ package mx.reel;
 import mx.reel.api.AppointmentService;
 import mx.reel.api.StateService;
 import mx.reel.api.UserService;
+import mx.reel.pojos.User;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Configuration {
+    private static User currentUser = null;
     private static String AUTH_TOKEN = "";
     public static final String API_URL = "https://byrn-dev.herokuapp.com";
     public static final Retrofit RETROFIT = new Retrofit
@@ -25,5 +27,13 @@ public class Configuration {
 
     public static String getAuthToken() {
         return "Bearer " + AUTH_TOKEN;
+    }
+
+    public static void setLoggedInUser(User user) {
+        currentUser = user;
+    }
+
+    public static User getLoggedInUser() {
+        return currentUser;
     }
 }

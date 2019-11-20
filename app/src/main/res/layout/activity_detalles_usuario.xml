@@ -22,10 +22,11 @@
         app:layout_constraintVertical_bias="0.063" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/userDetailsName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_bordes_editext"
+        android:editable="false"
         android:ems="10"
         android:hint="Nombre"
         android:inputType="textPersonName"
@@ -36,10 +37,11 @@
         app:layout_constraintVertical_bias="0.195" />
 
     <EditText
-        android:id="@+id/editText18"
+        android:id="@+id/userDetailsAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_bordes_editext"
+        android:editable="false"
         android:ems="10"
         android:hint="Calle y número"
         android:inputType="textPersonName"
@@ -50,10 +52,11 @@
         app:layout_constraintVertical_bias="0.546" />
 
     <EditText
-        android:id="@+id/editText15"
+        android:id="@+id/userDetailsCellphone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_bordes_editext"
+        android:editable="false"
         android:ems="10"
         android:hint="Celular"
         android:inputType="textPersonName"
@@ -64,10 +67,11 @@
         app:layout_constraintVertical_bias="0.653" />
 
     <EditText
-        android:id="@+id/editText16"
+        android:id="@+id/userDetailsRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_bordes_editext"
+        android:editable="false"
         android:ems="10"
         android:hint="Rol   "
         android:inputType="textPersonName"
@@ -78,10 +82,11 @@
         app:layout_constraintVertical_bias="0.768" />
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/userDetailsEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_bordes_editext"
+        android:editable="false"
         android:ems="10"
         android:hint="Correo"
         android:inputType="textPersonName"
@@ -92,10 +97,11 @@
         app:layout_constraintVertical_bias="0.441" />
 
     <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/userDetailsLastname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_bordes_editext"
+        android:editable="false"
         android:ems="10"
         android:hint="Apellido"
         android:inputType="textPersonName"

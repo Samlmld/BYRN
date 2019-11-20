@@ -92,8 +92,6 @@ public class CitasFragment extends Fragment implements Callback<List<Appointment
         // Botones
         btnBusquedaCita = vista.findViewById(R.id.btnBusquedaCita);
 
-        DialogManager.init(this.getActivity());
-
         DialogManager.showLoadingDialog("Obteniendo citas...");
         Call<List<Appointment>> serviceCall = Configuration.APPOINTMENT_SERVICE.getAllAppointments(
                 Configuration.getAuthToken()

@@ -90,12 +90,11 @@ public class PropiedadesFragment extends Fragment implements Callback<AllEstates
                              Bundle savedInstanceState) {
         fragment = inflater.inflate(R.layout.fragment_propiedades, container, false);
 
-        estatesListView = fragment.findViewById(R.id.lvData);
+        estatesListView = fragment.findViewById(R.id.usersListView);
         btnAgregarPropiedad = fragment.findViewById(R.id.btnAgregarPropiedad);
         btnBusquedaPropiedad = fragment.findViewById(R.id.btnBusquedaPropiedad);
 
         // API Communication
-        DialogManager.init(this.getActivity());
         DialogManager.showLoadingDialog("Cargando propiedades...");
         Call<AllEstatesResponse> estatesCall = Configuration.STATE_SERVICE.getAllStates();
         estatesCall.enqueue(this);

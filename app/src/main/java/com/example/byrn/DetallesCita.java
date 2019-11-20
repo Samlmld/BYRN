@@ -2,16 +2,24 @@ package com.example.byrn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import mx.reel.Configuration;
 import mx.reel.pojos.Appointment;
+import mx.reel.pojos.User;
+import mx.reel.utils.DialogManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class DetallesCita extends AppCompatActivity {
+public class DetallesCita extends AppCompatActivity implements Callback<User> {
     Button btnRegresar;
     private Appointment passedAppointment = null;
+    private User client = null;
     // View fields
     private TextView appointmentIdLabel = null;
     private TextView appointmentDateTimeLabel = null;
@@ -19,11 +27,13 @@ public class DetallesCita extends AppCompatActivity {
     private TextView appointmentLocationLabel = null;
     private TextView appointmentStatusLabel = null;
     private TextView appointmentClientLabel = null;
+    private Button clientDetailButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_cita);
+        DialogManager.init(this);
         // Labels
         appointmentIdLabel = findViewById(R.id.appointmentId);
         appointmentDateTimeLabel = findViewById(R.id.appointmentDateTime);
@@ -31,6 +41,7 @@ public class DetallesCita extends AppCompatActivity {
         appointmentLocationLabel = findViewById(R.id.appointmentLocation);
         appointmentStatusLabel = findViewById(R.id.appointmentStatus);
         appointmentClientLabel = findViewById(R.id.appointmentClient);
+        clientDetailButton = findViewById(R.id.clientDetailButton);
         // Back button
         btnRegresar = findViewById(R.id.btnRegresarCita);
         btnRegresar.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +54,7 @@ public class DetallesCita extends AppCompatActivity {
         initViewData();
 
         // Client detail listener
-        appointmentClientLabel.setOnClickListener(new View.OnClickListener() {
+        clientDetailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onClientDetailAction();
@@ -71,11 +82,44 @@ public class DetallesCita extends AppCompatActivity {
                 status = "Pendiente";
         }
         appointmentStatusLabel.setText(status);
-        appointmentClientLabel.setText(passedAppointment.getCustomerId() + "");
+        String userId = passedAppointment.getCustomerId() + "";
+        appointmentClientLabel.setText(userId);
+        fetchUserData(userId);
     }
 
     public void onClientDetailAction() {
         // TODO: Add client detail layout & logic
         System.out.println("TODO: Add client detail layout & logic");
+        Intent intento = new Intent(this, DetallesUsuario.class);
+        intento.putExtra("user", client);
+        startActivity(intento);
+    }
+
+    private void fetchUserData(String userId) {
+        DialogManager.showLoadingDialog("Obteniendo detalles del usuario...");
+        Configuration
+                .USER_SERVICE
+                .getUserById(userId, Configuration.getAuthToken())
+                .enqueue(this);
+    }
+
+    @Override
+    public void onResponse(Call<User> call, Response<User> response) {
+        if (!response.isSuccessful()) {
+            DialogManager.showMessageDialog("Ocurrió un error inesperado, intente más tarde.");
+            clientDetailButton.setEnabled(false);
+            return;
+        }
+        DialogManager.hideLoadingDialog();
+        client = response.body();
+        String clientName = client.getName() + " " + client.getLastName();
+        appointmentClientLabel.setText(clientName);
+        clientDetailButton.setEnabled(true);
+    }
+
+    @Override
+    public void onFailure(Call<User> call, Throwable t) {
+        DialogManager.showMessageDialog("No se pudieron obtener los datos del cliente.");
+        clientDetailButton.setEnabled(false);
     }
 }

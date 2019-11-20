@@ -24,6 +24,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Button;
 
+import mx.reel.utils.DialogManager;
+
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -37,6 +39,7 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DialogManager.init(this);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
 
         super.onCreate(savedInstanceState);

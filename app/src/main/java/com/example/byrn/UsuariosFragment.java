@@ -16,6 +16,14 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import mx.reel.Configuration;
+import mx.reel.pojos.User;
+import mx.reel.utils.DialogManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -26,7 +34,9 @@ import java.util.ArrayList;
  * Use the {@link UsuariosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UsuariosFragment extends Fragment {
+public class UsuariosFragment extends Fragment implements Callback<List<User>> {
+    private List<User> users = null;
+    private ListView usersListView = null;
     Button btnBuscarUsuario;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,40 +87,7 @@ public class UsuariosFragment extends Fragment {
         View vista =  inflater.inflate(R.layout.fragment_usuarios, container, false);
 
         btnBuscarUsuario = vista.findViewById(R.id.btnBuscarUsuario);
-
-        ArrayList<String> data = new ArrayList<>();
-
-        data.add("Juan Pistolas");
-        data.add("Aaron Gomez");
-        data.add("Luisa Arredondo");
-        data.add("Martha Gudiño");
-        data.add("Salvador Iglesias");
-        data.add("Beatriz Salgado");
-        data.add("Ana Villaseñor");
-        data.add("Juana Díaz");
-        data.add("Alan Castañeda");
-        data.add("Miguel Angel");
-
-
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
-
-        ListView lvData = (ListView) vista.findViewById(R.id.lvData);
-        lvData.setAdapter(adapter);
-
-
-
-        lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent v = new Intent(getActivity(), DetallesUsuario.class);
-
-                if (position == 0) {
-
-                    getActivity().startActivity(v);
-
-                }
-            }
-        });
+        usersListView = vista.findViewById(R.id.usersListView);
 
         btnBuscarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,14 +97,8 @@ public class UsuariosFragment extends Fragment {
             }
         });
 
+        fetchUsers();
         return vista;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -160,5 +131,53 @@ public class UsuariosFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void fetchUsers() {
+        DialogManager.showLoadingDialog("Obteniendo listado de usuarios...");
+        Configuration
+                .USER_SERVICE
+                .getAllUsers(Configuration.getAuthToken())
+                .enqueue(this);
+    }
+
+    private void initUsersListView() {
+        System.out.println("Initializing users list view");
+        List<String> userNames = new ArrayList<>();
+        for (User u : users) {
+            String name = u.getName() + " " + u.getLastName();
+            System.out.println(name);
+            userNames.add(name);
+        }
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, userNames);
+
+        usersListView.setAdapter(adapter);
+        usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent v = new Intent(getActivity(), DetallesUsuario.class);
+                v.putExtra("user", users.get(position));
+                startActivity(v);
+            }
+        });
+    }
+
+    @Override
+    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+        System.out.println("Succesfully completed the HTTP request.");
+        if (!response.isSuccessful()) {
+            DialogManager.showMessageDialog("Ocurrió un error inesperado.");
+            return;
+        }
+
+        DialogManager.hideLoadingDialog();
+        users = response.body();
+        initUsersListView();
+    }
+
+    @Override
+    public void onFailure(Call<List<User>> call, Throwable t) {
+        DialogManager.showMessageDialog("No se pudieron obtener los usuarios.");
+        System.err.println(t.getLocalizedMessage());
     }
 }
