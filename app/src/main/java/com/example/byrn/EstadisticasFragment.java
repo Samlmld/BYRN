@@ -10,6 +10,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,12 +78,56 @@ public class EstadisticasFragment extends Fragment {
         }
     }
 
+    private BarChart barChart;
+    private PieChart pieChart;
+    private LineChart lineChart;
+    private BarDataSet barDataSet;
+    private PieDataSet pieDataSet;
+    private LineDataSet lineDataSet;
+    View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View vista =  inflater.inflate(R.layout.fragment_estadisticas, container, false);
-        return  vista;
+        view =  inflater.inflate(R.layout.fragment_estadisticas, container, false);
+
+        // Enlazamos al XML
+        barChart = view.findViewById(R.id.barChart);
+        pieChart = view.findViewById(R.id.pieChart);
+        lineChart = view.findViewById(R.id.lineChart);
+
+        // Creamos un set de datos
+        List<BarEntry> barEntries = new ArrayList<>();
+        List<PieEntry> pieEntries = new ArrayList<>();
+        ArrayList<Entry> lineEntries = new ArrayList<>();
+        for (int i = 0; i<11; i++){
+            float y = (int) (Math.random() * 8) + 1;
+            barEntries.add(new BarEntry((float) i,y));
+            pieEntries.add(new PieEntry((float) i,y));
+            lineEntries.add(new Entry((float) i,y));
+        }
+
+
+        // Unimos los datos al data set
+        barDataSet = new BarDataSet(barEntries, "Propiedades");
+        pieDataSet = new PieDataSet(pieEntries, "Renta");
+        lineDataSet = new LineDataSet(lineEntries, "Ventas");
+
+        // Asociamos al gráfico
+        BarData barData = new BarData();
+        barData.addDataSet(barDataSet);
+        barChart.setData(barData);
+
+        PieData pieData = new PieData();
+        pieData.addDataSet(pieDataSet);
+        pieChart.setData(pieData);
+
+        LineData lineData = new LineData();
+        lineData.addDataSet(lineDataSet);
+        lineChart.setData(lineData);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
