@@ -98,6 +98,14 @@ public class CitasFragment extends Fragment implements Callback<List<Appointment
         );
         serviceCall.enqueue(this);
 
+        btnBusquedaCita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BusquedaCita.class);
+                startActivity(intent);
+            }
+        });
+
         return vista;
     }
 

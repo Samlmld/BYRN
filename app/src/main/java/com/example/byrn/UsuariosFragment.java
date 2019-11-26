@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class UsuariosFragment extends Fragment implements Callback<List<User>> {
     private List<User> users = null;
     private ListView usersListView = null;
     Button btnBuscarUsuario;
+    EditText etBuscar;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -88,16 +90,16 @@ public class UsuariosFragment extends Fragment implements Callback<List<User>> {
 
         btnBuscarUsuario = vista.findViewById(R.id.btnBuscarUsuario);
         usersListView = vista.findViewById(R.id.usersListView);
+        etBuscar = vista.findViewById(R.id.etBusquedaUsu);
+
+        fetchUsers();
 
         btnBuscarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent v = new Intent(getActivity(), BuscarUsuario.class);
-                startActivity(v);
+                searchUsersListView(etBuscar.getText().toString());
             }
         });
-
-        fetchUsers();
         return vista;
     }
 
@@ -148,6 +150,29 @@ public class UsuariosFragment extends Fragment implements Callback<List<User>> {
             String name = u.getName() + " " + u.getLastName();
             System.out.println(name);
             userNames.add(name);
+        }
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, userNames);
+
+        usersListView.setAdapter(adapter);
+        usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent v = new Intent(getActivity(), DetallesUsuario.class);
+                v.putExtra("user", users.get(position));
+                startActivity(v);
+            }
+        });
+    }
+
+    private void searchUsersListView(String name) {
+        //System.out.println("Initializing users list view");
+        List<String> userNames = new ArrayList<>();
+        for (User u : users) {
+            String nameAux = u.getName() + " " + u.getLastName();
+            //System.out.println(name);
+            if (nameAux.toLowerCase().contains(name.toLowerCase())){
+                userNames.add(nameAux);
+            }
         }
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, userNames);
 
