@@ -20,6 +20,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".FormularioPropiedadActivity"></activity>
+        <activity android:name=".BusquedaCita"></activity>
         <activity android:name=".BuscarUsuario" />
         <activity android:name=".DetallesUsuario" />
         <activity android:name=".DetallesCita" />
