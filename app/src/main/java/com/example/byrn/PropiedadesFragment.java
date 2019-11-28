@@ -96,15 +96,14 @@ public class PropiedadesFragment extends Fragment implements Callback<AllEstates
 
         // API Communication
         DialogManager.showLoadingDialog("Cargando propiedades...");
-        Call<AllEstatesResponse> estatesCall = Configuration.STATE_SERVICE.getAllStates();
+        Call<AllEstatesResponse> estatesCall = Configuration.STATE_SERVICE.getAllEstates();
         estatesCall.enqueue(this);
 
         btnAgregarPropiedad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
-                Intent v = new Intent(getActivity(), AgregarPropiedad.class);
+                Intent v = new Intent(getActivity(), FormularioPropiedadActivity.class);
                 startActivity(v);
-
             }
         });
 

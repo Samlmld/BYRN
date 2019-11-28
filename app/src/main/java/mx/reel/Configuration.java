@@ -1,7 +1,7 @@
 package mx.reel;
 
 import mx.reel.api.AppointmentService;
-import mx.reel.api.StateService;
+import mx.reel.api.EstateService;
 import mx.reel.api.UserService;
 import mx.reel.pojos.User;
 import retrofit2.Retrofit;
@@ -17,7 +17,7 @@ public class Configuration {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    public static final StateService STATE_SERVICE = RETROFIT.create(StateService.class);
+    public static final EstateService STATE_SERVICE = RETROFIT.create(EstateService.class);
     public static final UserService USER_SERVICE = RETROFIT.create(UserService.class);
     public static final AppointmentService APPOINTMENT_SERVICE = RETROFIT.create(AppointmentService.class);
 

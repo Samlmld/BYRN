@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BuscarUsuario"></activity>
+        <activity android:name=".FormularioPropiedadActivity"></activity>
+        <activity android:name=".BuscarUsuario" />
         <activity android:name=".DetallesUsuario" />
         <activity android:name=".DetallesCita" />
         <!--
