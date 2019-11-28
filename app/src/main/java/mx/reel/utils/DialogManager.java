@@ -16,7 +16,6 @@ public class DialogManager {
 
     public static void init(Activity a) {
         activity = a;
-
     }
 
     public static void showLoadingDialog(String msg) {
@@ -29,12 +28,15 @@ public class DialogManager {
         TextView text = loadingDialog.findViewById(R.id.text_dialog);
         text.setText(msg);
 
-        loadingDialog.show();
+        if (!activity.isFinishing()) {
+            loadingDialog.show();
+        }
     }
 
     public static void hideLoadingDialog() {
         if (loadingDialog != null) {
             loadingDialog.dismiss();
+            loadingDialog.cancel();
         }
     }
 
@@ -53,15 +55,19 @@ public class DialogManager {
             @Override
             public void onClick(View v) {
                 messageDialog.dismiss();
+                messageDialog.cancel();
             }
         });
+        if (!activity.isFinishing()) {
+            messageDialog.show();
+        }
 
-        messageDialog.show();
     }
 
     public static void hideMessageDialog() {
         if (messageDialog != null) {
             messageDialog.dismiss();
+            messageDialog.cancel();
         }
     }
 

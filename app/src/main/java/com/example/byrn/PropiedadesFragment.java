@@ -81,6 +81,7 @@ public class PropiedadesFragment extends Fragment implements Callback<AllEstates
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DialogManager.init(this.getActivity());
     }
 
 
@@ -102,7 +103,7 @@ public class PropiedadesFragment extends Fragment implements Callback<AllEstates
         btnAgregarPropiedad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
-                Intent v = new Intent(getActivity(), FormularioPropiedadActivity.class);
+                Intent v = new Intent(getActivity(), AgregarPropiedad.class);
                 startActivity(v);
             }
         });

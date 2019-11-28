@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.sql.SQLOutput;
+
 import mx.reel.Configuration;
 import mx.reel.pojos.Appointment;
 import mx.reel.pojos.User;
@@ -28,6 +30,7 @@ public class DetallesCita extends AppCompatActivity implements Callback<User> {
     private TextView appointmentStatusLabel = null;
     private TextView appointmentClientLabel = null;
     private Button clientDetailButton = null;
+    private Callback<Appointment> appointmentCallback = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,40 @@ public class DetallesCita extends AppCompatActivity implements Callback<User> {
                 onClientDetailAction();
             }
         });
+
+        // User data
+        String userId = passedAppointment.getCustomerId() + "";
+        appointmentClientLabel.setText(userId);
+        fetchUserData(userId);
+
+        appointmentCallback = new Callback<Appointment>() {
+            @Override
+            public void onResponse(Call<Appointment> call, Response<Appointment> response) {
+                DialogManager.hideLoadingDialog();
+                if (!response.isSuccessful()) {
+                    DialogManager.showMessageDialog("Ocurrió un error inesperado.");
+                    return;
+                }
+                System.out.println("=== HTTP RESPONSE DATA ===");
+                System.out.println(response.code());
+                System.out.println(response.raw().toString());
+                String currentStatus = passedAppointment.getStatus();
+                initViewData();
+                if (currentStatus.equals("0")) {
+                    DialogManager.showMessageDialog("Cita rechazada exitosamente.");
+                }
+
+                if (currentStatus.equals("2")) {
+                    DialogManager.showMessageDialog("Se aceptó la cita exitosamente.\nPor favor este al pendiente de su cliente.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Appointment> call, Throwable t) {
+                DialogManager.showMessageDialog("No se pudo actualizar la cita.");
+                System.out.println(t.getLocalizedMessage());
+            }
+        };
     }
 
     private void initViewData() {
@@ -82,9 +119,6 @@ public class DetallesCita extends AppCompatActivity implements Callback<User> {
                 status = "Pendiente";
         }
         appointmentStatusLabel.setText(status);
-        String userId = passedAppointment.getCustomerId() + "";
-        appointmentClientLabel.setText(userId);
-        fetchUserData(userId);
     }
 
     public void onClientDetailAction() {
@@ -121,5 +155,29 @@ public class DetallesCita extends AppCompatActivity implements Callback<User> {
     public void onFailure(Call<User> call, Throwable t) {
         DialogManager.showMessageDialog("No se pudieron obtener los datos del cliente.");
         clientDetailButton.setEnabled(false);
+    }
+
+    public void onAcceptAppointment(View v) {
+        // Dos es "aceptado"
+        passedAppointment.setStatus("2");
+        System.out.println("ACEPTAR CITA");
+        DialogManager.showLoadingDialog("Aprobando cita...");
+        Configuration.APPOINTMENT_SERVICE.updateAppointment(
+                Configuration.getAuthToken(),
+                String.valueOf(passedAppointment.getId()),
+                passedAppointment
+        ).enqueue(appointmentCallback);
+    }
+
+    public void onRejectAppointment(View v) {
+        // Cero es "rechazado"
+        passedAppointment.setStatus("0");
+        System.out.println("RECHAZAR CITA");
+        DialogManager.showLoadingDialog("Rechazando cita...");
+        Configuration.APPOINTMENT_SERVICE.updateAppointment(
+                Configuration.getAuthToken(),
+                String.valueOf(passedAppointment.getId()),
+                passedAppointment
+        ).enqueue(appointmentCallback);
     }
 }
