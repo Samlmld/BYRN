@@ -16,8 +16,11 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+import mx.reel.pojos.Appointment;
+
 public class BusquedaCita extends AppCompatActivity implements View.OnClickListener{
 
+    private Appointments appointments = null;
     Button btnFecha,btnHora,btnBuscar;
     EditText etfolio;
     Spinner spTipo;
@@ -37,11 +40,24 @@ public class BusquedaCita extends AppCompatActivity implements View.OnClickListe
         btnBuscar = findViewById(R.id.btnBuscarCita);
         spTipo = findViewById(R.id.spTipoCita);
 
+        appointments = (Appointments) getIntent().getSerializableExtra("appointments");
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                try {
+                    Intent intent = new Intent(BusquedaCita.this,DetallesCita.class);
+                    Boolean encontrado = false;
+                    for (Appointment appointment : appointments.getAppointments()){
+                        if (appointment.getId()==Integer.parseInt(etfolio.getText().toString())){
+                            encontrado = true;
+                            intent.putExtra("appointment",appointment);
+                            break;
+                        }
+                    }
+                    if (encontrado){
+                        startActivity(intent);
+                    }
+                } catch (Exception e){}
             }
         });
 

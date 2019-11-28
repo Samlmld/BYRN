@@ -79,10 +79,8 @@ public class EstadisticasFragment extends Fragment {
     }
 
     private BarChart barChart;
-    private PieChart pieChart;
     private LineChart lineChart;
     private BarDataSet barDataSet;
-    private PieDataSet pieDataSet;
     private LineDataSet lineDataSet;
     View view;
 
@@ -94,34 +92,30 @@ public class EstadisticasFragment extends Fragment {
 
         // Enlazamos al XML
         barChart = view.findViewById(R.id.barChart);
-        pieChart = view.findViewById(R.id.pieChart);
         lineChart = view.findViewById(R.id.lineChart);
 
         // Creamos un set de datos
         List<BarEntry> barEntries = new ArrayList<>();
-        List<PieEntry> pieEntries = new ArrayList<>();
         ArrayList<Entry> lineEntries = new ArrayList<>();
         for (int i = 0; i<11; i++){
             float y = (int) (Math.random() * 8) + 1;
             barEntries.add(new BarEntry((float) i,y));
-            pieEntries.add(new PieEntry((float) i,y));
+        }
+
+        for (int i = 0; i<11; i++){
+            float y = (int) (Math.random() * 8) + 1;
             lineEntries.add(new Entry((float) i,y));
         }
 
 
         // Unimos los datos al data set
         barDataSet = new BarDataSet(barEntries, "Propiedades");
-        pieDataSet = new PieDataSet(pieEntries, "Renta");
-        lineDataSet = new LineDataSet(lineEntries, "Ventas");
+        lineDataSet = new LineDataSet(lineEntries, "Citas");
 
         // Asociamos al gráfico
         BarData barData = new BarData();
         barData.addDataSet(barDataSet);
         barChart.setData(barData);
-
-        PieData pieData = new PieData();
-        pieData.addDataSet(pieDataSet);
-        pieChart.setData(pieData);
 
         LineData lineData = new LineData();
         lineData.addDataSet(lineDataSet);

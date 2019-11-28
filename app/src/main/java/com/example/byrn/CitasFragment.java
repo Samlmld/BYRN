@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +106,10 @@ public class CitasFragment extends Fragment implements Callback<List<Appointment
         btnBusquedaCita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Appointments obappointments = new Appointments();
+                obappointments.setAppointments(appointments);
                 Intent intent = new Intent(getActivity(), BusquedaCita.class);
+                intent.putExtra("appointments", obappointments);
                 startActivity(intent);
             }
         });
@@ -187,4 +194,21 @@ public class CitasFragment extends Fragment implements Callback<List<Appointment
         System.out.println(t.getLocalizedMessage());
     }
 
+}
+
+class Appointments implements Serializable {
+    @SerializedName("appointments")
+    @Expose
+    private List<Appointment> appointments;
+
+    public Appointments(){
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 }

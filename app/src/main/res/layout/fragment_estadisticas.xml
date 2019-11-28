@@ -25,7 +25,7 @@
             android:id="@+id/textView26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Estadisticas de Ventas"
+            android:text="Estadisticas"
             android:textColor="#00000F"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,38 +37,26 @@
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
-            android:layout_width="321dp"
-            android:layout_height="135dp"
+            android:layout_width="390dp"
+            android:layout_height="235dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.234"
-            tools:ignore="MissingConstraints" />
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
-            android:layout_width="326dp"
-            android:layout_height="136dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.564"
+            app:layout_constraintVertical_bias="0.256"
             tools:ignore="MissingConstraints" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
-            android:layout_width="330dp"
-            android:layout_height="131dp"
+            android:layout_width="380dp"
+            android:layout_height="220dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.886"
+            app:layout_constraintVertical_bias="0.849"
             tools:ignore="MissingConstraints">
 
         </com.github.mikephil.charting.charts.LineChart>
